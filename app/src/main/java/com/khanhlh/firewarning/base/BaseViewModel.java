@@ -19,9 +19,6 @@ package com.khanhlh.firewarning.base;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;
 
-import com.khanhlh.firewarning.data.DataManager;
-import com.khanhlh.firewarning.utils.rx.SchedulerProvider;
-
 import java.lang.ref.WeakReference;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -51,7 +48,9 @@ public abstract class BaseViewModel<N> extends ViewModel {
 
     @Override
     protected void onCleared() {
-        mCompositeDisposable.dispose();
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.dispose();
+        }
         super.onCleared();
     }
 

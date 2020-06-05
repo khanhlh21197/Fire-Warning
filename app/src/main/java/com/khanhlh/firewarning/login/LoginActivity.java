@@ -3,8 +3,6 @@ package com.khanhlh.firewarning.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -23,8 +21,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public static final String SUB_SIGN_UP = "statususer";
     public static final String PUB_SIGN_UP = "registeruser";
 
-    public static final String SUB_LOGIN = "statususer";
-    public static final String PUB_LOGIN = "registeruser";
+    public static final String SUB_LOGIN = "statuslogin";
+    public static final String PUB_LOGIN = "loginuser";
 
     private LoginViewModel mLoginViewModel;
     private ActivityLoginBinding binding;
@@ -60,19 +58,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
     @Override
-    public void handleError(Throwable throwable) {
+    public void handleError(Boolean login) {
         CommonUtils.toast(this, R.string.exception);
         showBackground();
     }
 
     @Override
     public void login() {
-        if (!isNetworkConnected()) {
-            return;
-        }
-        mqttLogin = new MqttCommon(this);
-        mqttLogin.subscribeTopic(SUB_LOGIN);
-        mqttLogin.setReceiveMessage(this);
+        subscribeLogin();
         String email = binding.txtUsername.getText().toString();
         String password = binding.txtPassword.getText().toString();
         if (mLoginViewModel.isEmailAndPasswordValid(email, password)) {
@@ -84,13 +77,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void signUp() {
-        if (!isNetworkConnected()) {
-            return;
-        }
-        mqttSignUp = new MqttCommon(this);
-        login = false;
-        mqttSignUp.subscribeTopic(SUB_SIGN_UP);
-        mqttSignUp.setReceiveMessage(this);
+        subscribeSignUp();
         String email = binding.txtUsername.getText().toString();
         String password = binding.txtPassword.getText().toString();
         String rePassword = binding.txtRePassword.getText().toString();
@@ -103,6 +90,32 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         }
     }
 
+    private void subscribeSignUp() {
+        login = false;
+        mqttSignUp = new MqttCommon(this);
+        mqttSignUp.subscribeTopic(SUB_SIGN_UP);
+        mqttSignUp.setReceiveMessage(this);
+    }
+
+    private void subscribeLogin() {
+        login = true;
+        mqttLogin = new MqttCommon(this);
+        mqttLogin.subscribeTopic(SUB_LOGIN);
+        mqttLogin.setReceiveMessage(this);
+    }
+
+    private void unSubscribeSignUp() {
+        mqttSignUp = new MqttCommon(this);
+        mqttSignUp.unSubscribe(SUB_SIGN_UP);
+        mqttSignUp.setReceiveMessage(this);
+    }
+
+    private void unSubscribeLogin() {
+        mqttLogin = new MqttCommon(this);
+        mqttLogin.unSubscribe(SUB_LOGIN);
+        mqttLogin.setReceiveMessage(this);
+    }
+
     @Override
     public void createAccount() {
         showSignUpUI();
@@ -111,6 +124,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     public void onLoading() {
         binding.blurView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void backToLogin() {
+        showLoginUI();
     }
 
     @Override
@@ -126,61 +144,88 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     private void showSignUpUI() {
         binding.llSignUp.setVisibility(View.VISIBLE);
         binding.rlSignUp.setVisibility(View.GONE);
+        binding.tvBackToLogin.setVisibility(View.VISIBLE);
         binding.btnLogin.setVisibility(View.GONE);
         binding.btnSignUp.setVisibility(View.VISIBLE);
+        binding.label.setText(R.string.sign_up);
     }
 
     private void showLoginUI() {
         binding.llSignUp.setVisibility(View.GONE);
         binding.rlSignUp.setVisibility(View.VISIBLE);
+        binding.tvBackToLogin.setVisibility(View.GONE);
         binding.btnLogin.setVisibility(View.VISIBLE);
         binding.btnSignUp.setVisibility(View.GONE);
+        binding.label.setText(R.string.login);
     }
 
     private void showBackground() {
-        binding.blurView.setVisibility(View.GONE);
+        if (binding.blurView.getVisibility() == View.VISIBLE)
+            binding.blurView.setVisibility(View.GONE);
         mLoginViewModel.setIsLoading(false);
+    }
+
+    private void clarify() {
+        if (binding.blurView.getVisibility() == View.GONE)
+            binding.blurView.setVisibility(View.VISIBLE);
+        mLoginViewModel.setIsLoading(true);
     }
 
     @Override
     public void onSubSuccess(String message) {
-        if (!TextUtils.isEmpty(message)) {
-            showBackground();
-            if (Boolean.parseBoolean(message)) {
-                if (login) {
-                    CommonUtils.toast(this, R.string.login_success);
-                    navigateToMain();
-                } else {
-                    CommonUtils.toast(this, R.string.sign_up_success);
-                    showLoginUI();
-                }
+        showBackground();
+        if (Boolean.parseBoolean(message)) {
+            if (login) {
+
+                CommonUtils.toast(this, R.string.login_success);
+                navigateToMain();
             } else {
-                if (login) {
-                    CommonUtils.toast(this, R.string.login_fail);
-                } else {
-                    CommonUtils.toast(this, R.string.sign_up_fail);
-                }
+                CommonUtils.toast(this, R.string.sign_up_success);
+                showLoginUI();
+            }
+        } else {
+            if (login) {
+                CommonUtils.toast(this, R.string.login_fail);
+            } else {
+                CommonUtils.toast(this, R.string.sign_up_fail);
             }
         }
     }
 
     private void navigateToMain() {
-        new Handler().postDelayed(()
-                -> startActivity(MainActivity.newIntent(this)), 500);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onSubError(String message) {
         Log.e("MQTT Error", message);
+        showBackground();
+        handleError(null);
     }
 
     @Override
     public void onPubSuccess(String message) {
-
+        showBackground();
     }
 
     @Override
     public void onPubError(String message) {
+        showBackground();
+    }
 
+    @Override
+    public void onLoading(boolean loading) {
+        mLoginViewModel.setIsLoading(loading);
+        if (!loading) {
+            clarify();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unSubscribeLogin();
+        unSubscribeSignUp();
     }
 }

@@ -17,6 +17,7 @@
 package com.khanhlh.firewarning.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -87,11 +88,15 @@ public final class CommonUtils {
     }
 
     public static void toast(Context context, int messageId) {
-        Toast.makeText(context, context.getString(messageId), Toast.LENGTH_SHORT).show();
+        ((Activity) context).runOnUiThread(() -> {
+            Toast.makeText(context, context.getString(messageId), Toast.LENGTH_SHORT).show();
+        });
     }
 
     public static void toast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        ((Activity) context).runOnUiThread(() -> {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        });
     }
 
     public static boolean isNetworkConnected(Context activity) {

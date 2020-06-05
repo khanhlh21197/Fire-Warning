@@ -1,6 +1,5 @@
 package com.khanhlh.firewarning.login;
 
-import android.os.Handler;
 import android.text.TextUtils;
 
 import com.khanhlh.firewarning.base.BaseViewModel;
@@ -54,10 +53,6 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         loading();
         String publishMessage = email + "&" + password;
         common.publishMessage(pubTopic, publishMessage);
-        new Handler().postDelayed(() -> {
-            setIsLoading(false);
-            getNavigator().handleError(null);
-        }, 3000);
     }
 
     public void signUp(MqttCommon common,
@@ -69,10 +64,6 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         loading();
         String publishMessage = email + "&" + password + "&" + name + "&" + phoneNumber;
         common.publishMessage(pubTopic, publishMessage);
-        new Handler().postDelayed(() -> {
-            setIsLoading(false);
-            getNavigator().handleError(null);
-        }, 3000);
     }
 
     public void onCreateAccountClick() {
@@ -85,6 +76,10 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     public void onSignUpClick() {
         getNavigator().signUp();
+    }
+
+    public void onBackToLoginClick() {
+        getNavigator().backToLogin();
     }
 
     private void loading() {

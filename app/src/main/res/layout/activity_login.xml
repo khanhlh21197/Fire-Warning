@@ -22,16 +22,19 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="230dp">
+                    android:layout_height="230dp"
+                    android:animateLayoutChanges="true">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -156,7 +159,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <LinearLayout
                             android:id="@+id/llRePassword"
@@ -211,7 +215,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/ic_password"
+                                android:background="@drawable/ic_name"
                                 tools:ignore="ContentDescription" />
 
                             <View
@@ -248,7 +252,7 @@
                                 android:layout_height="20dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="10dp"
-                                android:background="@drawable/ic_password"
+                                android:background="@drawable/ic_phone"
                                 tools:ignore="ContentDescription" />
 
                             <View
@@ -270,41 +274,101 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/llAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/custom_edit_text"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/ic_address"
+                                tools:ignore="ContentDescription" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:background="#CACACA" />
+
+                            <EditText
+                                android:id="@+id/txtAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="@string/address"
+                                android:textColor="@color/textColor"
+                                android:textColorHint="@color/hintColor" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <RelativeLayout
-                        android:id="@+id/rlSignUp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvCreateAccount"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:id="@+id/rlSignUp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="end"
-                            android:layout_marginLeft="16dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:onClick="@{() -> viewModel.onCreateAccountClick()}"
-                            android:padding="10dp"
-                            android:text="@string/create_account"
-                            android:textColor="@color/textColor"
-                            android:textSize="14dp"
-                            android:textStyle="normal" />
+                            tools:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tvCreateAccount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_gravity="end"
+                                android:layout_marginLeft="16dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:onClick="@{() -> viewModel.onCreateAccountClick()}"
+                                android:padding="10dp"
+                                android:text="@string/create_account"
+                                android:textColor="@color/textColor"
+                                android:textSize="14dp"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/tvForgotPassword"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="end"
+                                android:layout_marginRight="20dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:padding="10dp"
+                                android:text="@string/forgot_password"
+                                android:textColor="@color/textColor"
+                                android:textSize="14dp"
+                                android:textStyle="normal" />
+
+                        </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/tvForgotPassword"
+                            android:id="@+id/tvBackToLogin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="end"
                             android:layout_marginRight="20dp"
                             android:fontFamily="@font/montserrat_regular"
+                            android:onClick="@{() -> viewModel.onBackToLoginClick()}"
                             android:padding="10dp"
-                            android:text="@string/forgot_password"
+                            android:text="@string/back_to_login"
                             android:textColor="@color/textColor"
                             android:textSize="14dp"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -317,9 +381,8 @@
                             android:id="@+id/btnLogin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/btnSignUp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="30dp"
+                            android:layout_marginTop="16dp"
                             android:background="@drawable/gradient_row_bg"
                             android:fontFamily="@font/montserrat_regular"
                             android:onClick="@{() -> viewModel.onLoginClick()}"
@@ -338,7 +401,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
-                            android:layout_marginTop="30dp"
+                            android:layout_marginTop="16dp"
                             android:background="@drawable/gradient_row_bg"
                             android:onClick="@{() -> viewModel.onSignUpClick()}"
                             android:paddingLeft="100dp"
@@ -350,6 +413,15 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:visibility="gone" />
+
+                        <androidx.core.widget.ContentLoadingProgressBar
+                            android:id="@+id/address_looking_up"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="8dp"
+                            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
                     </RelativeLayout>
 
@@ -363,15 +435,6 @@
                 android:layout_height="match_parent"
                 android:background="#80FFFFFF"
                 android:visibility="gone" />
-
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/address_looking_up"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
-
         </FrameLayout>
 
     </androidx.core.widget.NestedScrollView>

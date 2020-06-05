@@ -2,7 +2,7 @@ package com.khanhlh.firewarning.login;
 
 public interface LoginNavigator {
 
-    void handleError(Throwable throwable);
+    void handleError(Boolean login);
 
     void login();
 
@@ -11,6 +11,8 @@ public interface LoginNavigator {
     void createAccount();
 
     void onLoading();
+
+    void backToLogin();
 
     void openMainActivity();
 
