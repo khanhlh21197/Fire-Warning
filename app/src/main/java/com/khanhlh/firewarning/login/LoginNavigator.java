@@ -14,6 +14,14 @@ public interface LoginNavigator {
 
     void backToLogin();
 
+    void showPassword();
+
+    void hidePassword();
+
+    void showRepassword();
+
+    void hideRePassword();
+
     void openMainActivity();
 
     void onSignUpSuccess();

@@ -1,11 +1,11 @@
-package com.khanhlh.irview;
+package com.khanhlh.firewarning.irview;
 
 import android.content.Context;
 
 public class OTC {
 
-    public static final int IR_WIDTH = 32;
-    public static final int IR_HEIGHT = 24;
+    public static final int IR_WIDTH = 3;
+    public static final int IR_HEIGHT = 4;
 
     private static double minIrTemp = 9999.0, maxIrTemp = -9999.0;
 

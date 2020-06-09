@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".login.LoginActivity">
 
@@ -123,6 +124,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/custom_edit_text"
+                        android:orientation="horizontal"
                         android:padding="10dp">
 
                         <ImageView
@@ -140,17 +142,50 @@
                             android:layout_marginEnd="5dp"
                             android:background="#CACACA" />
 
-                        <EditText
-                            android:id="@+id/txtPassword"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:hint="@string/password"
-                            android:inputType="textPassword"
-                            android:textColor="@color/textColor"
-                            android:textColorHint="@color/hintColor"
-                            tools:ignore="Autofill" />
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/txtPassword"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="9"
+                                android:background="@android:color/transparent"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:hint="@string/password"
+                                android:inputType="textPassword"
+                                android:textColor="@color/textColor"
+                                android:textColorHint="@color/hintColor"
+                                tools:ignore="Autofill" />
+
+                            <RelativeLayout
+                                android:id="@+id/showPass"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:onClick="@{() -> viewModel.onShowPasswordClick()}">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_centerInParent="true"
+                                    android:visibility="@{viewModel.showPassword ? View.VISIBLE : View.GONE}"
+                                    app:srcCompat="@drawable/ic_show" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerInParent="true"
+                                    android:visibility="@{viewModel.showPassword ? View.GONE : View.VISIBLE}"
+                                    app:srcCompat="@drawable/ic_hide"
+                                    tools:visibility="gone" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -187,16 +222,49 @@
                                 android:layout_marginEnd="5dp"
                                 android:background="#CACACA" />
 
-                            <EditText
-                                android:id="@+id/txtRePassword"
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:fontFamily="@font/montserrat_regular"
-                                android:hint="@string/re_password"
-                                android:inputType="textPassword"
-                                android:textColor="@color/textColor"
-                                android:textColorHint="@color/hintColor" />
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:id="@+id/txtRePassword"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="9"
+                                    android:autofillHints=""
+                                    android:background="@android:color/transparent"
+                                    android:fontFamily="@font/montserrat_regular"
+                                    android:hint="@string/re_password"
+                                    android:inputType="textPassword"
+                                    android:textColor="@color/textColor"
+                                    android:textColorHint="@color/hintColor" />
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:onClick="@{() -> viewModel.onShowRePasswordClick()}">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_centerInParent="true"
+                                        android:visibility="@{viewModel.showRePassword ? View.VISIBLE : View.GONE}"
+                                        app:srcCompat="@drawable/ic_show" />
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_centerInParent="true"
+                                        android:visibility="@{viewModel.showRePassword ? View.GONE : View.VISIBLE}"
+                                        app:srcCompat="@drawable/ic_hide"
+                                        tools:visibility="gone" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -229,11 +297,13 @@
                                 android:id="@+id/txtName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/montserrat_regular"
                                 android:hint="@string/name"
                                 android:textColor="@color/textColor"
-                                android:textColorHint="@color/hintColor" />
+                                android:textColorHint="@color/hintColor"
+                                tools:ignore="TextFields" />
 
                         </LinearLayout>
 
@@ -266,11 +336,13 @@
                                 android:id="@+id/txtPhoneNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/montserrat_regular"
                                 android:hint="@string/phone_number"
                                 android:textColor="@color/textColor"
-                                android:textColorHint="@color/hintColor" />
+                                android:textColorHint="@color/hintColor"
+                                tools:ignore="TextFields" />
 
                         </LinearLayout>
 
@@ -303,11 +375,13 @@
                                 android:id="@+id/txtAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/montserrat_regular"
                                 android:hint="@string/address"
                                 android:textColor="@color/textColor"
-                                android:textColorHint="@color/hintColor" />
+                                android:textColorHint="@color/hintColor"
+                                tools:ignore="TextFields" />
 
                         </LinearLayout>
 
@@ -321,7 +395,7 @@
                             android:id="@+id/rlSignUp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:visibility="gone">
+                            tools:visibility="visible">
 
                             <TextView
                                 android:id="@+id/tvCreateAccount"
@@ -329,14 +403,27 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_gravity="end"
-                                android:layout_marginLeft="16dp"
+                                android:layout_marginStart="16dp"
                                 android:fontFamily="@font/montserrat_regular"
                                 android:onClick="@{() -> viewModel.onCreateAccountClick()}"
                                 android:padding="10dp"
                                 android:text="@string/create_account"
                                 android:textColor="@color/textColor"
-                                android:textSize="14dp"
-                                android:textStyle="normal" />
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <CheckBox
+                                android:id="@+id/cbSaveUser"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="end"
+                                android:layout_marginEnd="20dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:padding="10dp"
+                                android:text="@string/save_user"
+                                android:textSize="14sp"
+                                tools:ignore="RelativeOverlap" />
 
                             <TextView
                                 android:id="@+id/tvForgotPassword"
@@ -344,13 +431,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_gravity="end"
-                                android:layout_marginRight="20dp"
+                                android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/montserrat_regular"
                                 android:padding="10dp"
-                                android:text="@string/forgot_password"
+                                android:text="@string/save_user"
                                 android:textColor="@color/textColor"
-                                android:textSize="14dp"
-                                android:textStyle="normal" />
+                                android:textSize="14sp"
+                                android:textStyle="normal"
+                                android:visibility="gone" />
 
                         </RelativeLayout>
 
@@ -360,13 +448,13 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="end"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginEnd="20dp"
                             android:fontFamily="@font/montserrat_regular"
                             android:onClick="@{() -> viewModel.onBackToLoginClick()}"
                             android:padding="10dp"
                             android:text="@string/back_to_login"
                             android:textColor="@color/textColor"
-                            android:textSize="14dp"
+                            android:textSize="14sp"
                             android:textStyle="normal"
                             android:visibility="gone" />
 

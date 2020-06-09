@@ -29,6 +29,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Patterns;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.khanhlh.firewarning.R;
@@ -36,7 +37,10 @@ import com.khanhlh.firewarning.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -97,6 +101,27 @@ public final class CommonUtils {
         ((Activity) context).runOnUiThread(() -> {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    public static boolean isNullOrEmpty(Object input) {
+        if (input == null) {
+            return true;
+        }
+        if (input instanceof String) {
+            return input.toString().trim().isEmpty();
+        }
+        if (input instanceof EditText) {
+            return ((EditText) input).getText().toString().trim().isEmpty();
+        }
+        if (input instanceof List) {
+            return ((List) input).isEmpty();
+        }
+
+        if (input instanceof HashMap) {
+            return ((HashMap) input).isEmpty();
+        }
+
+        return input instanceof ArrayList && ((ArrayList) input).isEmpty();
     }
 
     public static boolean isNetworkConnected(Context activity) {

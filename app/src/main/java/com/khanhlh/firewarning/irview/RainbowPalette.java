@@ -1,4 +1,4 @@
-package com.khanhlh.irview;
+package com.khanhlh.firewarning.irview;
 
 import androidx.annotation.ColorInt;
 

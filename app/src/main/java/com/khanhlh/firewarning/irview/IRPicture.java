@@ -1,4 +1,4 @@
-package com.khanhlh.irview;
+package com.khanhlh.firewarning.irview;
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -87,17 +87,17 @@ public class IRPicture {
         //Find max temp pixel in searchArea
         maxTempSearchArea = -40;
         int xMid = temperatureData.length / 2;
-        for (int i = xMid - searchAreaSize; i < xMid + searchAreaSize; i++) {
-            int yMid = temperatureData[i].length / 2;
-
-            for (int j = yMid - searchAreaSize; j < yMid + searchAreaSize; j++) {
-
-                if (temperatureData[i][j] > maxTempSearchArea) {
-                    maxTempSearchArea = temperatureData[i][j];
-                    maxTempPixelInSearchArea.set(j, i);
-                }
-            }
-        }
+//        for (int i = xMid - searchAreaSize; i < xMid + searchAreaSize; i++) {
+//            int yMid = temperatureData[i].length / 2;
+//
+//            for (int j = yMid - searchAreaSize; j < yMid + searchAreaSize; j++) {
+//
+//                if (temperatureData[i][j] > maxTempSearchArea) {
+//                    maxTempSearchArea = temperatureData[i][j];
+//                    maxTempPixelInSearchArea.set(j, i);
+//                }
+//            }
+//        }
 
         // min difference setting
         double tmpMinTemp = minTemp, tmpMaxTemp = maxTemp;

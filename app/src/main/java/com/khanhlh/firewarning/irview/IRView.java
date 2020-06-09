@@ -1,4 +1,4 @@
-package com.khanhlh.irview;
+package com.khanhlh.firewarning.irview;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

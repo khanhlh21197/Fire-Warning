@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.khanhlh.firewarning.R;
+import com.khanhlh.firewarning.data.model.api.BaseResponse;
+import com.khanhlh.firewarning.utils.json.JsonConverter;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -57,7 +61,7 @@ public class MqttCommon {
 //        mqttAndroidClient.setCallback(mqttCallBack);
     }
 
-    public void publishMessage(String pubTopic, String payload) {
+    public void publishMessage(String pubTopic, Object o) {
         try {
             MqttAndroidClient mqttAndroidClient = new MqttAndroidClient(activity, host, clientId);
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
@@ -66,6 +70,7 @@ public class MqttCommon {
                     Log.i(TAG, "connect succeed");
                     try {
                         MqttMessage message = new MqttMessage();
+                        String payload = JsonConverter.objectToJson(o);
                         message.setPayload(payload.getBytes());
                         message.setQos(0);
                         mqttAndroidClient.publish(pubTopic, message, null, publishListener);
@@ -94,7 +99,6 @@ public class MqttCommon {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.i(TAG, "connect succeed");
-
                     try {
                         mqttAndroidClient.subscribe(topic, 0, iMqttMessageListener);
 //                        mqttAndroidClient.subscribe(topic, 0, null, subscribeListener);
@@ -125,6 +129,12 @@ public class MqttCommon {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+    }
+
+    public void unRegister() {
+        MqttAndroidClient mqttAndroidClient = new MqttAndroidClient(activity, host, clientId);
+        mqttAndroidClient.unregisterResources();
+        mqttAndroidClient.close();
     }
 
     private IMqttActionListener publishListener = new IMqttActionListener() {
@@ -160,13 +170,16 @@ public class MqttCommon {
         String mess = new String(message.getPayload());
         receiveMessage.onLoading(true);
         if (!TextUtils.isEmpty(mess)) {
-            receiveMessage.onSubSuccess(mess);
+            BaseResponse response = (BaseResponse) JsonConverter.jsonToObject(mess, BaseResponse.class);
+            receiveMessage.onSubSuccess(response);
+        } else {
+            receiveMessage.onSubError(activity.getString(R.string.exception));
         }
         Log.d(TAG, new String(message.getPayload()));
     };
 
     public interface ReceiveMessage {
-        void onSubSuccess(String message);
+        void onSubSuccess(BaseResponse response);
 
         void onSubError(String message);
 
