@@ -1,0 +1,2 @@
+rootProject.name='Fire Warning'
+include ':app', ':esptouch'

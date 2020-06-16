@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "696571343657",
+    "firebase_url": "https://fire-warning-fc398.firebaseio.com",
+    "project_id": "fire-warning-fc398",
+    "storage_bucket": "fire-warning-fc398.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696571343657:android:7adfcaceac195712357d38",
+        "android_client_info": {
+          "package_name": "com.khanhlh.firewarning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696571343657-m1o74k04tv16ot6p1oep8udta8v441vh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUepaTkeKqKhI8mhwarhBB_BrOsOGlK08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696571343657-m1o74k04tv16ot6p1oep8udta8v441vh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
